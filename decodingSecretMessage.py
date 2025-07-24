@@ -24,19 +24,20 @@ def decodeMessage(docLink):
     #print("row 2 cell 1", soup.table.tr.find_next_sibling().td.p.span.next, "\n")
     #print("row 2 cell 2", soup.table.tr.find_next_sibling().td.find_next_sibling().p.span.next, "\n")
 
-    currentCell = soup.table.tr.find_next_sibling().td.p.span.next #row 2 col 1
+    currentCell = soup.table.tr.find_next_sibling().td.text #row 2 col 1
     row = 2
-    while currentCell != None:
+    #python equivalent of a "do while" loop
+    while True:
         singleRowData = []
         x = int(currentCell)
         print("x: ", x, "\n")
 
         currentCell = soup.table.tr.find_next_sibling().td.find_next_sibling() #move to next col
-        shape = str(currentCell.p.span.next)
+        shape = currentCell.text
         print("shape: ", shape, "\n")
 
         currentCell = currentCell.find_next_sibling() #move to next col
-        y = int(currentCell.p.span.next)
+        y = int(currentCell.text)
         print("y: ", y, "\n")
 
         singleRowData.append(x)
@@ -50,7 +51,12 @@ def decodeMessage(docLink):
         currentCell = soup.table.tr
         for i in range(row):
             currentCell = currentCell.find_next_sibling()
-        currentCell = currentCell.td.p.span.next
+        currentCell = currentCell.td.text
+
+        #loop condition
+        if currentCell == None:
+            break
+
         row += 1
 
     for x in allData:
